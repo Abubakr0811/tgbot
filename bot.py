@@ -215,4 +215,9 @@ def run_bot():
     loop.run_until_complete(start_bot())
 
 if __name__ == '__main__':
-    run_bot()
+    app = ApplicationBuilder().token(TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CallbackQueryHandler(button_handler))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, message_handler))
+
+    app.run_polling()
